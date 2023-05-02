@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1019822089181",
+    "project_id": "osar-ea440",
+    "storage_bucket": "osar-ea440.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019822089181:android:25edad59b3cc64410e4c34",
+        "android_client_info": {
+          "package_name": "com.example.osar_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019822089181-qp0a47msuujtopfi8vgk3cpu0atcclm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoEkDrKoyqmugv5haDYmgru6Z2CWI3Mp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019822089181-qp0a47msuujtopfi8vgk3cpu0atcclm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
