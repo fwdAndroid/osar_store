@@ -29,12 +29,17 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cloud_firestore: ^4.5.3
+  country_code_picker: ^3.0.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.4.2
   firebase_core: ^2.10.0
+  firebase_storage: ^11.1.2
   flutter:
     sdk: flutter
+  form_field_validator: ^1.1.0
   google_sign_in: ^6.1.0
+  phone_form_field: ^7.1.0
+  pin_code_fields: ^7.4.0
   uuid: ^3.0.7
 
 dev_dependencies:

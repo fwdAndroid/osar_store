@@ -7,12 +7,14 @@ class StoreModel {
   String name;
   String phoneNumber;
   bool blocked;
+  String photoUrl;
 
   StoreModel({
     required this.uid,
     required this.blocked,
     required this.email,
     required this.address,
+    required this.photoUrl,
     required this.name,
     required this.phoneNumber,
   });
@@ -20,6 +22,7 @@ class StoreModel {
   ///Converting OBject into Json Object
   Map<String, dynamic> toJson() => {
         'name': name,
+        "photoUrl": photoUrl,
         'uid': uid,
         'email': email,
         'phoneNumber': phoneNumber,
@@ -34,6 +37,7 @@ class StoreModel {
     return StoreModel(
         name: snapshot['name'],
         uid: snapshot['uid'],
+        photoUrl: snapshot['photoUrl'],
         email: snapshot['email'],
         phoneNumber: snapshot['phoneNumber'],
         blocked: snapshot['blocked'],
