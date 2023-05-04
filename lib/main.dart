@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/splash/splash.dart';
 
 Future<void> main() async {
@@ -31,7 +33,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Splash(),
+      home: FirebaseAuth.instance.currentUser!.uid != null
+          ? MainDashboard()
+          : Splash(),
     );
   }
 }
