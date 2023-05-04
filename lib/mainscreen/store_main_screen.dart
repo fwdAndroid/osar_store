@@ -8,20 +8,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:osar_store/database/database_methods.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/mainscreen/store_main_screen.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 
-class StoreOwnerProfile extends StatefulWidget {
-  const StoreOwnerProfile({Key? key}) : super(key: key);
+class StoreMainScreen extends StatefulWidget {
+  const StoreMainScreen({Key? key}) : super(key: key);
 
   @override
-  _StoreOwnerProfileState createState() => _StoreOwnerProfileState();
+  _StoreMainScreenState createState() => _StoreMainScreenState();
 }
 
-class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
+class _StoreMainScreenState extends State<StoreMainScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
@@ -48,7 +49,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
     _nameController.clear();
     _emailController.clear();
     _addressController.clear();
-    _dobController.clear();
+    _phoneController.clear();
   }
 
   @override
@@ -66,74 +67,71 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
               child: Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
-                    "Store Owner Profile",
+                    "Store Address",
                     style: TextStyle(
                         color: Color(0xff1D1E20),
                         fontWeight: FontWeight.w800,
                         fontSize: 22),
                   )),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            InkWell(
-              onTap: () => selectImage(),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Color(0xffD2D2D2),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _image != null
-                          ? CircleAvatar(
-                              radius: 59, backgroundImage: MemoryImage(_image!))
-                          : Image.asset(
-                              "assets/cam.png",
-                              width: 51,
-                              height: 39,
-                            ),
-                      SizedBox(
-                        height: 5,
+            Center(
+              child: InkWell(
+                onTap: () => selectImage(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 204,
+                    height: 107,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Color(0xffD2D2D2),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Upload Store Owner Photo',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontStyle: FontStyle.normal,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _image != null
+                            ? CircleAvatar(
+                                radius: 39,
+                                backgroundImage: MemoryImage(_image!))
+                            : Image.asset(
+                                "assets/cam.png",
+                                width: 51,
+                                height: 39,
+                              ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Upload Store  Photo',
+                              style: GoogleFonts.getFont(
+                                'Montserrat',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                                fontStyle: FontStyle.normal,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '*',
+                                    style: GoogleFonts.getFont(
+                                      'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.red,
+                                      fontStyle: FontStyle.normal,
+                                    )),
+                              ],
                             ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: '*',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.red,
-                                    fontStyle: FontStyle.normal,
-                                  )),
-                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 5,
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
@@ -141,7 +139,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: RichText(
                   text: TextSpan(
-                    text: 'Enter Name',
+                    text: 'Enter Store Name',
                     style: GoogleFonts.getFont(
                       'Montserrat',
                       fontWeight: FontWeight.w500,
@@ -167,13 +165,10 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
-                hintText: 'Enter your username',
+                hintText: 'Enter Store Email',
                 textInputType: TextInputType.text,
                 controller: _nameController,
               ),
-            ),
-            SizedBox(
-              height: 5,
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
@@ -212,9 +207,6 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
                 controller: _emailController,
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
               child: Padding(
@@ -252,16 +244,13 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
                 controller: _addressController,
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: RichText(
                   text: TextSpan(
-                    text: 'Enter Date of Birth',
+                    text: 'Enter Phone Number',
                     style: GoogleFonts.getFont(
                       'Montserrat',
                       fontWeight: FontWeight.w500,
@@ -287,9 +276,9 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
-                hintText: 'Enter Date',
+                hintText: 'Enter Phone Number',
                 textInputType: TextInputType.text,
-                controller: _dobController,
+                controller: _phoneController,
               ),
             ),
             Center(
@@ -300,13 +289,13 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                onPressed: storeOwnerProfile,
+                onPressed: StoreMainScreen,
                 child: _isLoading == true
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),
                       )
                     : Text(
-                        'Create Profile',
+                        'Create Store',
                         style: GoogleFonts.getFont('Montserrat',
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -327,24 +316,21 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
     });
   }
 
-  storeOwnerProfile() async {
+  StoreMainScreen() async {
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
-        _addressController.text.isEmpty ||
-        _dobController.text.isEmpty) {
+        _addressController.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("All Fields are required")));
     } else {
       setState(() {
         _isLoading = true;
       });
-      String rse = await DatabaseMethods().profileDetail(
+      String rse = await DatabaseMethods().store(
           email: _emailController.text,
           name: _nameController.text,
-          dob: _dobController.text,
           address: _addressController.text,
-          phoneNumber:
-              FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
+          phoneNumber: _phoneController.text,
           file: _image!,
           uid: FirebaseAuth.instance.currentUser!.uid,
           blocked: false);
@@ -355,8 +341,8 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
       });
       if (rse == 'success') {
         showSnakBar(rse, context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (builder) => StoreMainScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (builder) => MainDashboard()));
       } else {
         showSnakBar(rse, context);
       }

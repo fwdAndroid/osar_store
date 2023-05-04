@@ -25,34 +25,6 @@ class DatabaseMethods {
   //   }
   // }
 
-//OTP Number Add
-  Future<String> numberAdd() async {
-    String res = 'Some error occured';
-    try {
-      //Add User to the database with modal
-      StoreModel userModel = StoreModel(
-        photoUrl: "",
-        blocked: false,
-        name: '',
-        uid: FirebaseAuth.instance.currentUser!.uid,
-        email: "",
-        address: '',
-        phoneNumber: FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
-      );
-      await firebaseFirestore
-          .collection('storeowners')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set(
-            userModel.toJson(),
-          );
-      res = 'success';
-      debugPrint(res);
-    } catch (e) {
-      res = e.toString();
-    }
-    return res;
-  }
-
   //Profile Details
   Future<String> profileDetail({
     required String email,
@@ -75,6 +47,7 @@ class DatabaseMethods {
           blocked: blocked,
           name: name,
           address: address,
+          dob: dob,
           uid: FirebaseAuth.instance.currentUser!.uid,
           email: email,
           photoUrl: photoURL,
@@ -84,7 +57,46 @@ class DatabaseMethods {
         await firebaseFirestore
             .collection('storeowners')
             .doc(uid)
-            .update(userModel.toJson());
+            .set(userModel.toJson());
+
+        res = 'success';
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  //Store
+  Future<String> store({
+    required String uid,
+    required String name,
+    required String address,
+    required bool blocked,
+    required String email,
+    required String phoneNumber,
+    required Uint8List file,
+  }) async {
+    String res = 'Some error occured';
+
+    try {
+      if (name.isNotEmpty || address.isNotEmpty) {
+        //Add User to the database with modal
+        String photoURL = await StorageMethods()
+            .uploadImageToStorage('StorePics', file, false);
+        StoreModel userModel = StoreModel(
+          blocked: blocked,
+          name: name,
+          address: address,
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          email: email,
+          photoUrl: photoURL,
+          phoneNumber: phoneNumber,
+        );
+        await firebaseFirestore
+            .collection('storesList')
+            .doc(uid)
+            .set(userModel.toJson());
 
         res = 'success';
       }
