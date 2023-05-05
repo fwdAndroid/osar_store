@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:osar_store/product/add_product.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -68,7 +69,12 @@ class _Home_ScreenState extends State<Home_Screen> {
                     children: [
                       Text("Product"),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => AddProduct()));
+                          },
                           child: Text(
                             "Add Product",
                             style: TextStyle(color: Color(0xffFFBF00)),

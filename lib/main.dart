@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Splash(),
+      home: FirebaseAuth.instance.currentUser!.uid == null
+          ? Splash()
+          : MainDashboard(),
     );
   }
 }
