@@ -81,8 +81,8 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  width: 100,
-                  height: 100,
+                  width: 200,
+                  height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
@@ -137,35 +137,6 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Name',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
                 hintText: 'Enter your username',
                 textInputType: TextInputType.text,
@@ -174,35 +145,6 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             ),
             SizedBox(
               height: 5,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Email',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
@@ -217,35 +159,6 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Address',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
                 hintText: 'Enter Address',
                 textInputType: TextInputType.text,
@@ -254,35 +167,6 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             ),
             SizedBox(
               height: 5,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Date of Birth',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
