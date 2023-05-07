@@ -1,10 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:osar_store/database/database_methods.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
+import 'package:osar_store/widgets/utils.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -19,6 +24,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController _controllerSpecification = TextEditingController();
   TextEditingController _price = TextEditingController();
   List<File> _image = [];
+  bool _isLoading = false;
   final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
@@ -162,7 +168,7 @@ class _AddProductState extends State<AddProduct> {
               margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
                 hintText: 'Price',
-                textInputType: TextInputType.text,
+                textInputType: TextInputType.number,
                 controller: _price,
               ),
             ),
@@ -172,7 +178,11 @@ class _AddProductState extends State<AddProduct> {
             Center(
               child: ElevatedButton(
                 onPressed: saveProduct,
-                child: Text("Save Product"),
+                child: _isLoading == true
+                    ? const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      )
+                    : Text("Save Product"),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xffFFBF00),
                     fixedSize: Size(250, 50)),
@@ -206,5 +216,29 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  void saveProduct() {}
+  void saveProduct() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String rse = await DatabaseMethods().addProduct(
+      productDescription: _controllerDescrition.text,
+      productName: _controller.text,
+      productSpecification: _controllerSpecification.text,
+      // images: FieldValue.arrayUnion([_image]),
+      price: int.parse(_price.text),
+      uid: FirebaseAuth.instance.currentUser!.uid,
+    );
+
+    print(rse);
+    setState(() {
+      _isLoading = false;
+    });
+    if (rse == 'success') {
+      showSnakBar("Product Added Succssfully", context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => MainDashboard()));
+    } else {
+      showSnakBar(rse, context);
+    }
+  }
 }

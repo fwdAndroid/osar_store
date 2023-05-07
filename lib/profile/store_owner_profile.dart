@@ -60,7 +60,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              height: 20,
+              height: 5,
             ),
             Center(
               child: Container(
@@ -76,58 +76,61 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
             SizedBox(
               height: 5,
             ),
-            InkWell(
-              onTap: () => selectImage(),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Color(0xffD2D2D2),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _image != null
-                          ? CircleAvatar(
-                              radius: 59, backgroundImage: MemoryImage(_image!))
-                          : Image.asset(
-                              "assets/cam.png",
-                              width: 51,
-                              height: 39,
-                            ),
-                      SizedBox(
-                        height: 5,
+            Center(
+              child: InkWell(
+                onTap: () => selectImage(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Color(0xffD2D2D2),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Upload Store Owner Photo',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontStyle: FontStyle.normal,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _image != null
+                            ? CircleAvatar(
+                                radius: 59,
+                                backgroundImage: MemoryImage(_image!))
+                            : Image.asset(
+                                "assets/cam.png",
+                                width: 51,
+                                height: 39,
+                              ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Upload Store Owner Photo',
+                              style: GoogleFonts.getFont(
+                                'Montserrat',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                                fontStyle: FontStyle.normal,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '*',
+                                    style: GoogleFonts.getFont(
+                                      'Montserrat',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.red,
+                                      fontStyle: FontStyle.normal,
+                                    )),
+                              ],
                             ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: '*',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.red,
-                                    fontStyle: FontStyle.normal,
-                                  )),
-                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

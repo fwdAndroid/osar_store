@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osar_store/database/storage_methods.dart';
+import 'package:osar_store/models/product_model.dart';
 import 'package:osar_store/models/store_models.dart';
 import 'package:uuid/uuid.dart';
 
@@ -96,6 +98,47 @@ class DatabaseMethods {
         await firebaseFirestore
             .collection('storesList')
             .doc(uid)
+            .set(userModel.toJson());
+
+        res = 'success';
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  //Add product
+  Future<String> addProduct({
+    required String uid,
+    required String productName,
+    required String productDescription,
+    required String productSpecification,
+    // required var images,
+    required int price,
+  }) async {
+    String res = 'Some error occured';
+
+    try {
+      if (productName.isNotEmpty || productDescription.isNotEmpty) {
+        var uuid = Uuid().v4();
+        //Add User to the database with modal
+        // String photoURL = await StorageMethods()
+        //     .uploadImageToStorage('ProductPics', images as Uint8List, false);
+        ProductModel userModel = ProductModel(
+          productName: productName,
+          prductPrice: price,
+          productDescription: productDescription,
+          productSpecification: productDescription,
+          productUUid: uuid,
+          // image: images,
+          uid: FirebaseAuth.instance.currentUser!.uid,
+        );
+        await firebaseFirestore
+            .collection('products')
+            .doc(uid)
+            .collection("productlist")
+            .doc(uuid)
             .set(userModel.toJson());
 
         res = 'success';
