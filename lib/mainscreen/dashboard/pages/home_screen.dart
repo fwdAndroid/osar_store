@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -83,21 +85,43 @@ class _Home_ScreenState extends State<Home_Screen> {
                   ),
                 ),
                 Container(
-                  height: 500,
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20),
-                      itemCount: 21,
-                      itemBuilder: (BuildContext ctx, index) {
-                        return Container(
-                          height: 200,
-                          alignment: Alignment.center,
-                          child: Image.asset("assets/s.png"),
-                        );
+                  height: 400,
+                  child: StreamBuilder<Object>(
+                      stream: FirebaseFirestore.instance
+                          .collection("products")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection("productlist")
+                          .snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final List<DocumentSnapshot> documents =
+                            snapshot.data!.docs;
+
+                        return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 20,
+                                    mainAxisSpacing: 20),
+                            itemCount: documents.length,
+                            itemBuilder: (BuildContext ctx, index) {
+                              final Map<String, dynamic> data = documents[index]
+                                  .data() as Map<String, dynamic>;
+
+                              return Container(
+                                height: 200,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  data['productName'],
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            });
                       }),
                 )
               ],

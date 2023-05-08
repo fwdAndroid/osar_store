@@ -129,7 +129,7 @@ class DatabaseMethods {
           productName: productName,
           prductPrice: price,
           productDescription: productDescription,
-          productSpecification: productDescription,
+          productSpecification: productSpecification,
           productUUid: uuid,
           // image: images,
           uid: FirebaseAuth.instance.currentUser!.uid,
