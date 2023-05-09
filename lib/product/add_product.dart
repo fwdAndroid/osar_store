@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:osar_store/database/database_methods.dart';
 import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
@@ -21,9 +23,9 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   TextEditingController _controller = TextEditingController();
   TextEditingController _controllerDescrition = TextEditingController();
-  TextEditingController _controllerSpecification = TextEditingController();
   TextEditingController _price = TextEditingController();
-  List<File> _image = [];
+  Uint8List? _image;
+
   bool _isLoading = false;
   final picker = ImagePicker();
   @override
@@ -66,6 +68,62 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(
               height: 20,
             ),
+            InkWell(
+              onTap: () => selectImage(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 374,
+                  height: 157,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Color(0xffD2D2D2),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _image != null
+                          ? CircleAvatar(
+                              radius: 59, backgroundImage: MemoryImage(_image!))
+                          : Image.asset(
+                              "assets/cam.png",
+                              width: 51,
+                              height: 39,
+                            ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Upload Product Image',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontStyle: FontStyle.normal,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: '*',
+                                  style: GoogleFonts.getFont(
+                                    'Montserrat',
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.red,
+                                    fontStyle: FontStyle.normal,
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: Text(
@@ -92,6 +150,7 @@ class _AddProductState extends State<AddProduct> {
             Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: TextField(
+                  controller: _controllerDescrition,
                   decoration: InputDecoration(
                     hintText: 'Description',
                     fillColor: Colors.white,
@@ -108,53 +167,36 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(
               height: 15,
             ),
-            Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: Text(
-                  "Product Specification",
-                  style: TextStyle(color: Colors.black, fontSize: 17),
-                )),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: TextFormInputField(
-                hintText: 'Specification',
-                textInputType: TextInputType.text,
-                controller: _controllerSpecification,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: Text(
-                  "Product Images",
-                  style: TextStyle(color: Colors.black, fontSize: 17),
-                )),
-            Container(
-              height: 200,
-              padding: EdgeInsets.all(4),
-              child: GridView.builder(
-                  itemCount: _image.length + 1,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? Center(
-                            child: IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () => chooseImage()),
-                          )
-                        : Container(
-                            margin: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                    image: FileImage(_image[index - 1]),
-                                    fit: BoxFit.cover)),
-                          );
-                  }),
-            ),
+            // Container(
+            //     margin: EdgeInsets.only(left: 15, right: 15),
+            //     child: Text(
+            //       "Product Images",
+            //       style: TextStyle(color: Colors.black, fontSize: 17),
+            //     )),
+            // Container(
+            //   height: 200,
+            //   padding: EdgeInsets.all(4),
+            //   child: GridView.builder(
+            //       itemCount: _image.length + 1,
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //           crossAxisCount: 3),
+            //       itemBuilder: (context, index) {
+            //         return index == 0
+            //             ? Center(
+            //                 child: IconButton(
+            //                     icon: Icon(Icons.add),
+            //                     onPressed: () => chooseImage()),
+            //               )
+            //             : Container(
+            //                 margin: EdgeInsets.all(3),
+            //                 decoration: BoxDecoration(
+            //                     borderRadius: BorderRadius.circular(20),
+            //                     image: DecorationImage(
+            //                         image: FileImage(_image),
+            //                         fit: BoxFit.cover)),
+            //               );
+            //       }),
+            // ),
             SizedBox(
               height: 15,
             ),
@@ -194,37 +236,14 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  chooseImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image.add(File(pickedFile!.path));
-    });
-    if (pickedFile!.path == null) retrieveLostData();
-  }
-
-  Future<void> retrieveLostData() async {
-    final response = await picker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-      setState(() {
-        _image.add(File(response.file!.path));
-      });
-    } else {
-      print(response.file);
-    }
-  }
-
   void saveProduct() async {
     setState(() {
       _isLoading = true;
     });
     String rse = await DatabaseMethods().addProduct(
+      file: _image!,
       productDescription: _controllerDescrition.text,
       productName: _controller.text,
-      productSpecification: _controllerSpecification.text,
-      // images: FieldValue.arrayUnion([_image]),
       price: int.parse(_price.text),
       uid: FirebaseAuth.instance.currentUser!.uid,
     );
@@ -240,5 +259,12 @@ class _AddProductState extends State<AddProduct> {
     } else {
       showSnakBar(rse, context);
     }
+  }
+
+  selectImage() async {
+    Uint8List ui = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = ui;
+    });
   }
 }

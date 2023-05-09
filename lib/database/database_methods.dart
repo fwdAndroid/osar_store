@@ -113,7 +113,8 @@ class DatabaseMethods {
     required String uid,
     required String productName,
     required String productDescription,
-    required String productSpecification,
+    required Uint8List file,
+    // required List<String> productImages,
     // required var images,
     required int price,
   }) async {
@@ -121,7 +122,10 @@ class DatabaseMethods {
 
     try {
       if (productName.isNotEmpty || productDescription.isNotEmpty) {
+        String photoURL = await StorageMethods()
+            .uploadImageToStorage('ProductPics', file, false);
         var uuid = Uuid().v4();
+
         //Add User to the database with modal
         // String photoURL = await StorageMethods()
         //     .uploadImageToStorage('ProductPics', images as Uint8List, false);
@@ -129,9 +133,9 @@ class DatabaseMethods {
           productName: productName,
           prductPrice: price,
           productDescription: productDescription,
-          productSpecification: productSpecification,
           productUUid: uuid,
-          // image: images,
+          image: photoURL,
+          // productImages: productImages,
           uid: FirebaseAuth.instance.currentUser!.uid,
         );
         await firebaseFirestore

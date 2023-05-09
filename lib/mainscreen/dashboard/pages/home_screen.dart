@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:osar_store/product/add_product.dart';
+import 'package:osar_store/product/product_detail.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -106,19 +107,76 @@ class _Home_ScreenState extends State<Home_Screen> {
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                                     maxCrossAxisExtent: 200,
                                     childAspectRatio: 3 / 2,
-                                    crossAxisSpacing: 20,
-                                    mainAxisSpacing: 20),
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8),
                             itemCount: documents.length,
                             itemBuilder: (BuildContext ctx, index) {
                               final Map<String, dynamic> data = documents[index]
                                   .data() as Map<String, dynamic>;
 
                               return Container(
-                                height: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                height: 340,
                                 alignment: Alignment.center,
-                                child: Text(
-                                  data['productName'],
-                                  style: TextStyle(color: Colors.black),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (builder) =>
+                                                  ProductDetail(
+                                                    productUuod:
+                                                        data['productUUid'],
+                                                    ProductDescritption: data[
+                                                        'productDescription'],
+                                                    ProductImage: data['image'],
+                                                    ProductName:
+                                                        data['productName'],
+                                                    ProductPrice:
+                                                        data['prductPrice'],
+                                                  )));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            data["image"],
+                                            height: 78,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Product Name",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              data['productName'],
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               );
                             });

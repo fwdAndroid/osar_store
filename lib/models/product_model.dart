@@ -6,30 +6,30 @@ class ProductModel {
   String uid;
   String productName;
   int prductPrice;
-  String productSpecification;
   String productUUid;
-  // var image = [];
+  String image;
   String productDescription;
+  // List<String>? productImages;
 
   ProductModel({
     required this.uid,
     required this.productName,
+    // required this.productImages,
     required this.prductPrice,
-    required this.productSpecification,
     required this.productUUid,
     required this.productDescription,
-    // required this.image,
+    required this.image,
   });
 
   ///Converting OBject into Json Object
   Map<String, dynamic> toJson() => {
         "productUUid": productUUid,
-        // 'image': image,
+        'image': image,
         'uid': uid,
         'prductPrice': prductPrice,
         'productDescription': productDescription,
-        'productSpecification': productSpecification,
         'productName': productName,
+        // "productImages": "productImages",
       };
 
   ///
@@ -37,12 +37,13 @@ class ProductModel {
     var snapshot = snaps.data() as Map<String, dynamic>;
 
     return ProductModel(
-        productDescription: snapshot['productDescription'],
-        uid: snapshot['uid'],
-        productUUid: snapshot['productUUid'],
-        prductPrice: snapshot['prductPrice'],
-        // image: snapshot['image'],
-        productName: snapshot['productName'],
-        productSpecification: snapshot['productSpecification']);
+      productDescription: snapshot['productDescription'],
+      uid: snapshot['uid'],
+      productUUid: snapshot['productUUid'],
+      prductPrice: snapshot['prductPrice'],
+      image: snapshot['image'],
+      // productImages: snapshot['productImages'],
+      productName: snapshot['productName'],
+    );
   }
 }
