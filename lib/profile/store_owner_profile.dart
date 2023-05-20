@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:osar_store/database/database_methods.dart';
 import 'package:osar_store/mainscreen/store_main_screen.dart';
+import 'package:osar_store/status/blockstatus.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 
@@ -242,8 +243,8 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
       });
       if (rse == 'success') {
         showSnakBar(rse, context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (builder) => StoreMainScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (builder) => UserStatus()));
       } else {
         showSnakBar(rse, context);
       }
