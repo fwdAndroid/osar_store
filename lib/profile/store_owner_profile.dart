@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:osar_store/database/database_methods.dart';
-import 'package:osar_store/mainscreen/store_main_screen.dart';
 import 'package:osar_store/status/blockstatus.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
@@ -235,7 +233,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
               FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
           file: _image!,
           uid: FirebaseAuth.instance.currentUser!.uid,
-          blocked: false);
+          verified: false);
 
       print(rse);
       setState(() {

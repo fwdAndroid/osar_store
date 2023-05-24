@@ -2,18 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StoreModel {
   String uid;
+  String type;
   String address;
   String email;
   String name;
   String phoneNumber;
-  bool blocked;
+  bool verified;
   String? dob;
   String photoUrl;
 
   StoreModel({
     required this.uid,
-    required this.blocked,
+    required this.verified,
     required this.email,
+    required this.type,
     required this.address,
     required this.photoUrl,
     required this.name,
@@ -26,11 +28,12 @@ class StoreModel {
         'name': name,
         "photoUrl": photoUrl,
         'dob': dob,
+        'type': type,
         'uid': uid,
         'email': email,
         'phoneNumber': phoneNumber,
         'address': address,
-        'blocked': blocked,
+        'verified': verified,
       };
 
   ///
@@ -39,12 +42,13 @@ class StoreModel {
 
     return StoreModel(
         name: snapshot['name'],
+        type: snapshot['type'],
         uid: snapshot['uid'],
         photoUrl: snapshot['photoUrl'],
         email: snapshot['email'],
         dob: snapshot['dob'],
         phoneNumber: snapshot['phoneNumber'],
-        blocked: snapshot['blocked'],
+        verified: snapshot['verified'],
         address: snapshot['address']);
   }
 }

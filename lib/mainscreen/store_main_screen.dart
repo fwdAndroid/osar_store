@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:osar_store/database/database_methods.dart';
 import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
-import 'package:osar_store/mainscreen/store_main_screen.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 
@@ -327,13 +325,14 @@ class _StoreMainScreenState extends State<StoreMainScreen> {
         _isLoading = true;
       });
       String rse = await DatabaseMethods().store(
+          type: "StoreOwners",
           email: _emailController.text,
           name: _nameController.text,
           address: _addressController.text,
           phoneNumber: _phoneController.text,
           file: _image!,
           uid: FirebaseAuth.instance.currentUser!.uid,
-          blocked: false);
+          verified: false);
 
       print(rse);
       setState(() {

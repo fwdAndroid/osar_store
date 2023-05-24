@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:osar_store/auth/verifyphone.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class MainAuth extends StatefulWidget {
@@ -26,7 +24,6 @@ class _MainAuthState extends State<MainAuth> {
 
   @override
   Widget build(BuildContext context) {
-    PhoneController controller;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

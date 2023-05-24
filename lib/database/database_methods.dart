@@ -1,10 +1,6 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osar_store/database/storage_methods.dart';
 import 'package:osar_store/models/product_model.dart';
 import 'package:osar_store/models/store_models.dart';
@@ -33,7 +29,8 @@ class DatabaseMethods {
     required String uid,
     required String name,
     required String address,
-    required bool blocked,
+    required bool verified,
+    required String type,
     required String dob,
     required String phoneNumber,
     required Uint8List file,
@@ -46,12 +43,13 @@ class DatabaseMethods {
         String photoURL = await StorageMethods()
             .uploadImageToStorage('StoreOwnerPics', file, false);
         StoreModel userModel = StoreModel(
-          blocked: blocked,
+          verified: verified,
           name: name,
           address: address,
           dob: dob,
           uid: FirebaseAuth.instance.currentUser!.uid,
           email: email,
+          type: type,
           photoUrl: photoURL,
           phoneNumber:
               FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
@@ -74,7 +72,8 @@ class DatabaseMethods {
     required String uid,
     required String name,
     required String address,
-    required bool blocked,
+    required String type,
+    required bool verified,
     required String email,
     required String phoneNumber,
     required Uint8List file,
@@ -87,7 +86,8 @@ class DatabaseMethods {
         String photoURL = await StorageMethods()
             .uploadImageToStorage('StorePics', file, false);
         StoreModel userModel = StoreModel(
-          blocked: blocked,
+          verified: verified,
+          type: type,
           name: name,
           address: address,
           uid: FirebaseAuth.instance.currentUser!.uid,

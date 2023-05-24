@@ -2,11 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:practo_doctor/bottom.dart';
-import 'package:practo_doctor/database/databasemethods.dart';
-import 'package:practo_doctor/status/blockuser.dart';
-import 'package:practo_doctor/status/checkstatus.dart';
+import 'package:osar_store/mainscreen/store_main_screen.dart';
+import 'package:osar_store/status/blockuser.dart';
 
 class UserStatus extends StatefulWidget {
   const UserStatus({super.key});
@@ -17,7 +14,7 @@ class UserStatus extends StatefulWidget {
 
 class _UserStatusState extends State<UserStatus> {
   final DocumentReference userRef = FirebaseFirestore.instance
-      .collection('doctorsprofile')
+      .collection('storeowners')
       .doc(FirebaseAuth.instance.currentUser!.uid);
   @override
   void initState() {
@@ -40,14 +37,14 @@ class _UserStatusState extends State<UserStatus> {
     Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
 
     ;
-    final isBlocked = data['blocked'];
-    if (isBlocked == true) {
+    final verified = data['verified'];
+    if (verified == true) {
       // User is blocked
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => BlockUser()));
     } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (builder) => MobileScreenLayout()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
     }
   }
 }
