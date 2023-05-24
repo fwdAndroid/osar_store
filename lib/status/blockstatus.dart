@@ -41,10 +41,10 @@ class _UserStatusState extends State<UserStatus> {
     if (verified == true) {
       // User is blocked
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => BlockUser()));
+          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
+          context, MaterialPageRoute(builder: (builder) => BlockUser()));
     }
   }
 }

@@ -54,255 +54,260 @@ class _StoreMainScreenState extends State<StoreMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    "Store Address",
-                    style: TextStyle(
-                        color: Color(0xff1D1E20),
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22),
-                  )),
-            ),
-            Center(
-              child: InkWell(
-                onTap: () => selectImage(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 204,
-                    height: 107,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Color(0xffD2D2D2),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _image != null
-                            ? CircleAvatar(
-                                radius: 39,
-                                backgroundImage: MemoryImage(_image!))
-                            : Image.asset(
-                                "assets/cam.png",
-                                width: 51,
-                                height: 39,
-                              ),
-                        SizedBox(
-                          height: 5,
+      body: SingleChildScrollView(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 40,
+              ),
+              Center(
+                child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text(
+                      "Store Address",
+                      style: TextStyle(
+                          color: Color(0xff1D1E20),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22),
+                    )),
+              ),
+              Center(
+                child: InkWell(
+                  onTap: () => selectImage(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 204,
+                      height: 107,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Color(0xffD2D2D2),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Upload Store  Photo',
-                              style: GoogleFonts.getFont(
-                                'Montserrat',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                                fontStyle: FontStyle.normal,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _image != null
+                              ? CircleAvatar(
+                                  radius: 39,
+                                  backgroundImage: MemoryImage(_image!))
+                              : Image.asset(
+                                  "assets/cam.png",
+                                  width: 51,
+                                  height: 39,
+                                ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Upload Store  Photo',
+                                style: GoogleFonts.getFont(
+                                  'Montserrat',
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: '*',
+                                      style: GoogleFonts.getFont(
+                                        'Montserrat',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.red,
+                                        fontStyle: FontStyle.normal,
+                                      )),
+                                ],
                               ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: '*',
-                                    style: GoogleFonts.getFont(
-                                      'Montserrat',
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red,
-                                      fontStyle: FontStyle.normal,
-                                    )),
-                              ],
                             ),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Enter Store Name',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '*',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                            )),
                       ],
                     ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Store Name',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: TextFormInputField(
+                  hintText: 'Enter Store Email',
+                  textInputType: TextInputType.text,
+                  controller: _nameController,
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: TextFormInputField(
-                hintText: 'Enter Store Email',
-                textInputType: TextInputType.text,
-                controller: _nameController,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Email',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: TextFormInputField(
-                hintText: 'Enter your email',
-                textInputType: TextInputType.emailAddress,
-                controller: _emailController,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Address',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: TextFormInputField(
-                hintText: 'Enter Address',
-                textInputType: TextInputType.text,
-                controller: _addressController,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Enter Phone Number',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: '*',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12,
-                            fontStyle: FontStyle.normal,
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: TextFormInputField(
-                hintText: 'Enter Phone Number',
-                textInputType: TextInputType.text,
-                controller: _phoneController,
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xfffFFBF00).withOpacity(.6),
-                  fixedSize: const Size(350, 60),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                onPressed: StoreMainScreen,
-                child: _isLoading == true
-                    ? const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      )
-                    : Text(
-                        'Create Store',
-                        style: GoogleFonts.getFont('Montserrat',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Enter Email',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
                       ),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '*',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ]),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: TextFormInputField(
+                  hintText: 'Enter your email',
+                  textInputType: TextInputType.emailAddress,
+                  controller: _emailController,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Enter Address',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '*',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: TextFormInputField(
+                  hintText: 'Enter Address',
+                  textInputType: TextInputType.text,
+                  controller: _addressController,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Enter Phone Number',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '*',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontStyle: FontStyle.normal,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: TextFormInputField(
+                  hintText: 'Enter Phone Number',
+                  textInputType: TextInputType.text,
+                  controller: _phoneController,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xfffFFBF00).withOpacity(.6),
+                    fixedSize: const Size(350, 60),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                  onPressed: StoreMainScreen,
+                  child: _isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                      : Text(
+                          'Create Store',
+                          style: GoogleFonts.getFont('Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontStyle: FontStyle.normal),
+                        ),
+                ),
+              ),
+            ]),
+      ),
     );
   }
 
