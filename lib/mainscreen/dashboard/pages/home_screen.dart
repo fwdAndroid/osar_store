@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:osar_store/product/add_product.dart';
 import 'package:osar_store/product/product_detail.dart';
+import 'package:osar_store/widgets/drawer.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -22,11 +23,9 @@ class _Home_ScreenState extends State<Home_Screen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset("assets/menu.png"),
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
+      drawer: MyDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
