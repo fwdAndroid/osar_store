@@ -36,17 +36,40 @@ class _Home_ScreenState extends State<Home_Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 15),
-                  child: Text(
-                    "Hemendra",
-                    style: TextStyle(
-                        color: Color(0xff1D1E20),
-                        fontSize: 29,
-                        fontWeight: FontWeight.w800),
+                  height: 40,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection("storeowners")
+                        .snapshots(),
+                    builder: (_, snapshot) {
+                      if (snapshot.hasError)
+                        return Text('Error = ${snapshot.error}');
+                      if (snapshot.hasData) {
+                        final docs = snapshot.data!.docs;
+                        return ListView.builder(
+                          itemCount: docs.length,
+                          itemBuilder: (_, i) {
+                            final data = docs[i].data();
+                            return Container(
+                              margin: EdgeInsets.only(left: 15),
+                              child: Text(
+                                data['name'],
+                                style: TextStyle(
+                                    color: Color(0xff1D1E20),
+                                    fontSize: 29,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            );
+                          },
+                        );
+                      }
+
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
                 ),
                 Text(
-                  "    Welcome to Osar Store.",
+                  "  Welcome to Osar Store.",
                   style: TextStyle(
                       color: Color(0xff8F959E),
                       fontSize: 15,
@@ -89,8 +112,6 @@ class _Home_ScreenState extends State<Home_Screen> {
                   child: StreamBuilder<Object>(
                       stream: FirebaseFirestore.instance
                           .collection("products")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .collection("productlist")
                           .snapshots(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {

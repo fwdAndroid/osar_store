@@ -5,6 +5,7 @@ class ProductModel {
   String productName;
   int prductPrice;
   String productUUid;
+  // String uid;
   String image;
   String productDescription;
   // List<String>? productImages;
@@ -12,7 +13,7 @@ class ProductModel {
   ProductModel({
     required this.uid,
     required this.productName,
-    // required this.productImages,
+    // required this.uid,
     required this.prductPrice,
     required this.productUUid,
     required this.productDescription,

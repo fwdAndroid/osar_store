@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 
 class ProductDetail extends StatefulWidget {
   final ProductName;
@@ -104,6 +106,51 @@ class _ProductDetailState extends State<ProductDetail> {
             margin: EdgeInsets.only(left: 15, right: 15),
             child: Text(widget.ProductPrice.toString()),
           ),
+          Center(
+            child: TextButton(
+                onPressed: () {
+                  showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Delete Alert'),
+                              content: const Text(
+                                  'Are You Sure To Delete This Product'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection("products")
+                                        .doc(widget.productUuod)
+                                        .delete()
+                                        .then((value) => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      "Product Delete Successfully"),
+                                                ),
+                                              ),
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (builder) =>
+                                                          MainDashboard()))
+                                            });
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ]));
+                },
+                child: Text(
+                  "Delete Product",
+                  style: TextStyle(color: Color(0xffFFBF00)),
+                )),
+          )
         ],
       ),
     );

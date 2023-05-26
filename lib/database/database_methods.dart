@@ -155,8 +155,6 @@ class DatabaseMethods {
         await firebaseFirestore
             .collection('products')
             .doc(uuid)
-            .collection("productlist")
-            .doc(uid)
             .set(userModel.toJson());
 
         res = 'success';
