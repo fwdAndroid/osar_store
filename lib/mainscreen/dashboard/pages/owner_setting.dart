@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:osar_store/auth/main_auth.dart';
+import 'package:osar_store/mainscreen/dashboard/setting_pages/edit_setting.dart';
 
 class OwnerSetting extends StatefulWidget {
   const OwnerSetting({super.key});
@@ -94,8 +95,8 @@ class _OwnerSettingState extends State<OwnerSetting> {
           ),
           // ListTile()
           zisttile('Setting', Icons.settings, () {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (builder) => Edit_Setting()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (builder) => Edit_Setting()));
           }),
           Divider(
             color: Colors.grey,
@@ -103,7 +104,7 @@ class _OwnerSettingState extends State<OwnerSetting> {
             indent: 15,
             endIndent: 15,
           ),
-          zisttile('Account Information', Icons.person, () {
+          zisttile('Notifications', Icons.notifications, () {
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (builder) => Notifications()));
           }),
@@ -124,10 +125,29 @@ class _OwnerSettingState extends State<OwnerSetting> {
             endIndent: 15,
           ),
           zisttile('Logout', Icons.logout, () {
-            FirebaseAuth.instance.signOut().then((value) {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (builder) => MainAuth()));
-            });
+            showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Log Out Alert'),
+                        content: const Text(
+                            'Are You Sure To Logout From This account'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              FirebaseAuth.instance.signOut().then((value) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) => MainAuth()));
+                              });
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ]));
           })
         ],
       ),
