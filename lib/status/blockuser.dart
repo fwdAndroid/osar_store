@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
 class BlockUser extends StatefulWidget {
   const BlockUser({super.key});
@@ -14,7 +15,7 @@ class _BlockUserState extends State<BlockUser> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Text("Your Account is not Verified By the Admin"),
+        child: Text("Kindly Verify Your Account"),
       ),
     );
   }

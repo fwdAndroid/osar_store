@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:osar_store/mainscreen/store_main_screen.dart';
 import 'package:osar_store/status/blockuser.dart';
+import 'package:osar_store/status/checkstorestatus.dart';
 
 class UserStatus extends StatefulWidget {
   const UserStatus({super.key});
@@ -37,11 +37,11 @@ class _UserStatusState extends State<UserStatus> {
     Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
 
     ;
-    final verified = data['verified'];
-    if (verified == true) {
+    final isBlocked = data['verified'];
+    if (isBlocked == true) {
       // User is blocked
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
+          context, MaterialPageRoute(builder: (builder) => CheckStoreStatus()));
     } else {
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => BlockUser()));

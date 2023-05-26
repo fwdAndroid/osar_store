@@ -1,7 +1,7 @@
 // import 'package:college_meet/Screens/authphone/selectinterest.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:osar_store/profile/store_owner_profile.dart';
+import 'package:osar_store/status/checkstatus.dart';
 
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -16,6 +16,7 @@ class VerifyPhone extends StatefulWidget {
 }
 
 class _VerifyPhoneState extends State<VerifyPhone> {
+  final GlobalKey<ScaffoldState> _scalfoldkey = GlobalKey<ScaffoldState>();
   final TextEditingController controllerpin = TextEditingController();
   final FocusNode pinOTPFocusNode = FocusNode();
 
@@ -37,7 +38,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/logo.png",
+            "asset/splash.png",
             width: 150,
             height: 200,
           ),
@@ -66,7 +67,25 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   fontWeight: FontWeight.bold,
                 ),
                 length: 6,
-                onSubmitted: (pin) async {},
+                onSubmitted: (pin) async {
+                  try {
+                    await FirebaseAuth.instance
+                        .signInWithCredential(PhoneAuthProvider.credential(
+                            verificationId: verificationCode!, smsCode: pin))
+                        .then((value) async {
+                      if (value.user != null) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (builder) => CheckStatus()));
+                      }
+                    });
+                  } catch (e) {
+                    FocusScope.of(context).unfocus();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Invalide Code"),
+                      duration: Duration(seconds: 12),
+                    ));
+                  }
+                },
                 animationType: AnimationType.fade,
                 validator: (v) {
                   if (v!.length < 3) {
@@ -78,24 +97,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                 pinTheme: PinTheme(),
                 animationDuration: const Duration(milliseconds: 300),
                 keyboardType: TextInputType.number,
-                onCompleted: (pin) async {
-                  try {
-                    await FirebaseAuth.instance
-                        .signInWithCredential(PhoneAuthProvider.credential(
-                            verificationId: verificationCode!, smsCode: pin))
-                        .then((value) async {
-                      if (value.user != null) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (builder) => StoreOwnerProfile()));
-                      }
-                    });
-                  } catch (e) {
-                    FocusScope.of(context).unfocus();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Invalide Code"),
-                      duration: Duration(seconds: 12),
-                    ));
-                  }
+                onCompleted: (v) {
+                  debugPrint("Completed");
                 },
                 onChanged: (value) {
                   debugPrint(value);
@@ -113,13 +116,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             margin: EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (builder) => StoreOwnerProfile()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (builder) => CheckStatus()));
                 },
                 child: Text('Continue'),
                 style: ElevatedButton.styleFrom(
                     shape: StadiumBorder(),
-                    primary: Color(0xfffFFBF00),
+                    backgroundColor: Color(0xfff0092E1),
                     fixedSize: Size(330, 50))),
           ),
         ],
@@ -136,8 +139,8 @@ class _VerifyPhoneState extends State<VerifyPhone> {
               .then((value) {
             if (value.user != null) {
               // Customdialog.showDialogBox(context);
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (builder) => StoreOwnerProfile()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (builder) => CheckStatus()));
               // Customdialog.closeDialog(context);
             } else {}
           });

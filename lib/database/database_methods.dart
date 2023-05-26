@@ -9,19 +9,33 @@ import 'package:uuid/uuid.dart';
 class DatabaseMethods {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  // Future checkDocuement(String docID) async {
-  //   final snapShot = await FirebaseFirestore.instance
-  //       .collection('storeowners')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid) // varuId in your case
-  //       .get();
-
-  //   if (snapShot == null || !snapShot.exists) {
-  //     // docuement is not exist
-  //     print('id is not exist');
-  //   } else {
-  //     print("id is really exist");
-  //   }
-  // }
+  Future<String> numberAdd() async {
+    String res = 'Some error occured';
+    try {
+      //Add User to the database with modal
+      StoreModel userModel = StoreModel(
+          email: '',
+          verified: false,
+          address: '',
+          dob: '',
+          photoUrl: "",
+          type: 'StoreOwner',
+          name: '',
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          phoneNumber:
+              FirebaseAuth.instance.currentUser!.phoneNumber.toString());
+      await firebaseFirestore
+          .collection('storeowners')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(
+            userModel.toJson(),
+          );
+      res = 'success';
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
 
   //Profile Details
   Future<String> profileDetail({
@@ -140,9 +154,9 @@ class DatabaseMethods {
         );
         await firebaseFirestore
             .collection('products')
-            .doc(uid)
-            .collection("productlist")
             .doc(uuid)
+            .collection("productlist")
+            .doc(uid)
             .set(userModel.toJson());
 
         res = 'success';

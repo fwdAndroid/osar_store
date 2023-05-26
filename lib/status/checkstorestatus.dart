@@ -1,18 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:osar_store/database/database_methods.dart';
-import 'package:osar_store/profile/store_owner_profile.dart';
-import 'package:osar_store/status/user_status.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
+import 'package:osar_store/mainscreen/store_main_screen.dart';
 
-class CheckStatus extends StatefulWidget {
-  const CheckStatus({super.key});
+class CheckStoreStatus extends StatefulWidget {
+  const CheckStoreStatus({super.key});
 
   @override
-  State<CheckStatus> createState() => _CheckStatusState();
+  State<CheckStoreStatus> createState() => _CheckStoreStatusState();
 }
 
-class _CheckStatusState extends State<CheckStatus> {
+class _CheckStoreStatusState extends State<CheckStoreStatus> {
   @override
   void initState() {
     // TODO: implement initState
@@ -31,19 +30,17 @@ class _CheckStatusState extends State<CheckStatus> {
 
   void checkresult() async {
     final doc = await FirebaseFirestore.instance
-        .collection('storeowners')
+        .collection('storesList')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
     final bool doesDocExist = doc.exists;
 
     if (doesDocExist) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => UserStatus()));
+          context, MaterialPageRoute(builder: (builder) => MainDashboard()));
     } else {
-      DatabaseMethods().numberAdd().then((value) => {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (builder) => StoreOwnerProfile()))
-          });
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
     }
   }
 }
