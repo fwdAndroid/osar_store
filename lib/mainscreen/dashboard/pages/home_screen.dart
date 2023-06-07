@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:osar_store/product/add_product.dart';
 import 'package:osar_store/product/product_detail.dart';
-import 'package:osar_store/widgets/drawer.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -25,7 +24,6 @@ class _Home_ScreenState extends State<Home_Screen> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      drawer: MyDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,24 +85,53 @@ class _Home_ScreenState extends State<Home_Screen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 12, right: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Product"),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => AddProduct()));
-                          },
-                          child: Text(
-                            "Add Product",
-                            style: TextStyle(color: Color(0xffFFBF00)),
-                          )),
-                    ],
-                  ),
+                  height: 40,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      stream: FirebaseFirestore.instance
+                          .collection("storesList")
+                          .snapshots(),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasError)
+                          return Text('Error = ${snapshot.error}');
+                        if (snapshot.hasData) {
+                          final docs = snapshot.data!.docs;
+                          return ListView.builder(
+                            itemCount: docs.length,
+                            itemBuilder: (_, i) {
+                              final data = docs[i].data();
+                              return Container(
+                                  margin: EdgeInsets.only(left: 12, right: 12),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Product"),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (builder) =>
+                                                        AddProduct(
+                                                          storeAddress:
+                                                              data['address'],
+                                                          storeName:
+                                                              data['name'],
+                                                        )));
+                                          },
+                                          child: Text(
+                                            "Add Product",
+                                            style: TextStyle(
+                                                color: Color(0xffFFBF00)),
+                                          )),
+                                    ],
+                                  ));
+                            },
+                          );
+                        }
+
+                        return Center(child: CircularProgressIndicator());
+                      }),
                 ),
                 Container(
                   height: 400,

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:osar_store/auth/verifyphone.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:flutter_social_button/flutter_social_button.dart';
+import 'package:osar_store/database/database_methods.dart';
+import 'package:osar_store/status/checkstatus.dart';
 
 class MainAuth extends StatefulWidget {
   const MainAuth({Key? key}) : super(key: key);
@@ -100,9 +103,6 @@ class _MainAuthState extends State<MainAuth> {
               SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: 20,
-              ),
               Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: ElevatedButton(
@@ -121,6 +121,20 @@ class _MainAuthState extends State<MainAuth> {
                         shape: StadiumBorder(),
                         primary: Color(0xfffFFBF00).withOpacity(.5),
                         fixedSize: Size(300, 46))),
+              ),
+              Text("OR"),
+              FlutterSocialButton(
+                onTap: () async {
+                  await DatabaseMethods().signInWithGoogle().then((value) => {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => CheckStatus()))
+                      });
+                },
+                buttonType:
+                    ButtonType.google, // Button type for different type buttons
+                iconColor: Colors.black, // for change icons colors
               ),
             ],
           ),

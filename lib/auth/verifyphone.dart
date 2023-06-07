@@ -38,7 +38,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "asset/splash.png",
+            "assets/logo.png",
             width: 150,
             height: 200,
           ),

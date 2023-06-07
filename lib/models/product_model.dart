@@ -5,15 +5,17 @@ class ProductModel {
   String productName;
   int prductPrice;
   String productUUid;
-  // String uid;
+  String storeName;
+  List<String> productImages;
   String image;
   String productDescription;
-  // List<String>? productImages;
-
+  String storeAddress;
   ProductModel({
     required this.uid,
+    required this.productImages,
     required this.productName,
-    // required this.uid,
+    required this.storeAddress,
+    required this.storeName,
     required this.prductPrice,
     required this.productUUid,
     required this.productDescription,
@@ -25,10 +27,12 @@ class ProductModel {
         "productUUid": productUUid,
         'image': image,
         'uid': uid,
+        'productImages': productImages,
         'prductPrice': prductPrice,
         'productDescription': productDescription,
         'productName': productName,
-        // "productImages": "productImages",
+        "storeAddress": storeAddress,
+        "storeName": storeName
       };
 
   ///
@@ -38,10 +42,12 @@ class ProductModel {
     return ProductModel(
       productDescription: snapshot['productDescription'],
       uid: snapshot['uid'],
+      productImages: snapshot['productImages'],
       productUUid: snapshot['productUUid'],
       prductPrice: snapshot['prductPrice'],
       image: snapshot['image'],
-      // productImages: snapshot['productImages'],
+      storeAddress: snapshot['storeAddress'],
+      storeName: snapshot['storeName'],
       productName: snapshot['productName'],
     );
   }

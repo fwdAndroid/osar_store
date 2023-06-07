@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:osar_store/database/storage_methods.dart';
 import 'package:osar_store/models/product_model.dart';
 import 'package:osar_store/models/store_models.dart';
@@ -8,6 +9,19 @@ import 'package:uuid/uuid.dart';
 
 class DatabaseMethods {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   Future<String> numberAdd() async {
     String res = 'Some error occured';
@@ -128,7 +142,10 @@ class DatabaseMethods {
     required String productName,
     required String productDescription,
     required Uint8List file,
-    // required List<String> productImages,
+    required String storeAddress,
+    required String storeName,
+    required String productUUid,
+    required List<String> productImages,
     // required var images,
     required int price,
   }) async {
@@ -137,19 +154,21 @@ class DatabaseMethods {
     try {
       if (productName.isNotEmpty || productDescription.isNotEmpty) {
         String photoURL = await StorageMethods()
-            .uploadImageToStorage('ProductPics', file, false);
+            .uploadImageToStorage('ProductPics', file, true);
         var uuid = Uuid().v4();
 
         //Add User to the database with modal
         // String photoURL = await StorageMethods()
         //     .uploadImageToStorage('ProductPics', images as Uint8List, false);
         ProductModel userModel = ProductModel(
+          storeAddress: storeAddress,
+          productImages: productImages,
+          storeName: storeName,
           productName: productName,
           prductPrice: price,
           productDescription: productDescription,
           productUUid: uuid,
           image: photoURL,
-          // productImages: productImages,
           uid: FirebaseAuth.instance.currentUser!.uid,
         );
         await firebaseFirestore

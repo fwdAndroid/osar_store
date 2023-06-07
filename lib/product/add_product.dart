@@ -8,9 +8,16 @@ import 'package:osar_store/database/database_methods.dart';
 import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
+import 'package:uuid/uuid.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+  String storeName;
+  String storeAddress;
+  AddProduct({
+    super.key,
+    required this.storeAddress,
+    required this.storeName,
+  });
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -163,39 +170,6 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(
               height: 15,
             ),
-            // Container(
-            //     margin: EdgeInsets.only(left: 15, right: 15),
-            //     child: Text(
-            //       "Product Images",
-            //       style: TextStyle(color: Colors.black, fontSize: 17),
-            //     )),
-            // Container(
-            //   height: 200,
-            //   padding: EdgeInsets.all(4),
-            //   child: GridView.builder(
-            //       itemCount: _image.length + 1,
-            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 3),
-            //       itemBuilder: (context, index) {
-            //         return index == 0
-            //             ? Center(
-            //                 child: IconButton(
-            //                     icon: Icon(Icons.add),
-            //                     onPressed: () => chooseImage()),
-            //               )
-            //             : Container(
-            //                 margin: EdgeInsets.all(3),
-            //                 decoration: BoxDecoration(
-            //                     borderRadius: BorderRadius.circular(20),
-            //                     image: DecorationImage(
-            //                         image: FileImage(_image),
-            //                         fit: BoxFit.cover)),
-            //               );
-            //       }),
-            // ),
-            SizedBox(
-              height: 15,
-            ),
             Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: Text(
@@ -220,7 +194,7 @@ class _AddProductState extends State<AddProduct> {
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),
                       )
-                    : Text("Save Product"),
+                    : Text("Next"),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xffFFBF00),
                     fixedSize: Size(250, 50)),
@@ -233,10 +207,15 @@ class _AddProductState extends State<AddProduct> {
   }
 
   void saveProduct() async {
+    var uuid = Uuid().v4();
     setState(() {
       _isLoading = true;
     });
     String rse = await DatabaseMethods().addProduct(
+      storeAddress: widget.storeAddress,
+      storeName: widget.storeName,
+      productUUid: uuid,
+      productImages: [],
       file: _image!,
       productDescription: _controllerDescrition.text,
       productName: _controller.text,
@@ -249,7 +228,6 @@ class _AddProductState extends State<AddProduct> {
       _isLoading = false;
     });
     if (rse == 'success') {
-      showSnakBar("Product Added Succssfully", context);
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => MainDashboard()));
     } else {
@@ -263,4 +241,6 @@ class _AddProductState extends State<AddProduct> {
       _image = ui;
     });
   }
+
+  uploadFile() {}
 }
