@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:osar_store/database/database_methods.dart';
 import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/mainscreen/store_main_screen.dart';
+import 'package:osar_store/profile/add_address.dart';
 import 'package:osar_store/status/user_status.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
@@ -21,9 +22,8 @@ class StoreOwnerProfile extends StatefulWidget {
 }
 
 class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
@@ -47,8 +47,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
     // TODO: implement dispose
     super.dispose();
     _nameController.clear();
-    _emailController.clear();
-    _addressController.clear();
+    _phoneController.clear();
     _dobController.clear();
   }
 
@@ -154,9 +153,9 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: TextFormInputField(
-                  hintText: 'Enter your email',
-                  textInputType: TextInputType.emailAddress,
-                  controller: _emailController,
+                  hintText: 'Enter your phone number',
+                  textInputType: TextInputType.number,
+                  controller: _phoneController,
                 ),
               ),
               SizedBox(
@@ -165,18 +164,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: TextFormInputField(
-                  hintText: 'Enter Address',
-                  textInputType: TextInputType.text,
-                  controller: _addressController,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: TextFormInputField(
-                  hintText: 'Enter Date',
+                  hintText: 'Enter Date of Birth',
                   textInputType: TextInputType.text,
                   controller: _dobController,
                 ),
@@ -198,7 +186,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
                           child: CircularProgressIndicator.adaptive(),
                         )
                       : Text(
-                          'Create Profile',
+                          'Next',
                           style: GoogleFonts.getFont('Montserrat',
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -222,8 +210,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
 
   storeOwnerProfile() async {
     if (_nameController.text.isEmpty ||
-        _emailController.text.isEmpty ||
-        _addressController.text.isEmpty ||
+        _phoneController.text.isEmpty ||
         _dobController.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("All Fields are required")));
@@ -231,14 +218,12 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
       setState(() {
         _isLoading = true;
       });
-      String rse = await DatabaseMethods().profileDetail(
-          email: _emailController.text,
+      String rse = await DatabaseMethods().profileDetailEmail(
+          email: FirebaseAuth.instance.currentUser!.email.toString(),
           name: _nameController.text,
           type: "StoreOwners",
           dob: _dobController.text,
-          address: _addressController.text,
-          phoneNumber:
-              FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
+          phoneNumber: _phoneController.text,
           file: _image!,
           uid: FirebaseAuth.instance.currentUser!.uid,
           verified: false);
@@ -250,7 +235,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
       if (rse == 'success') {
         showSnakBar(rse, context);
         Navigator.push(
-            context, MaterialPageRoute(builder: (builder) => UserStatus()));
+            context, MaterialPageRoute(builder: (builder) => AddAddress()));
       } else {
         showSnakBar(rse, context);
       }

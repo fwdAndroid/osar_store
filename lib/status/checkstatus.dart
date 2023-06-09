@@ -40,7 +40,7 @@ class _CheckStatusState extends State<CheckStatus> {
       Navigator.push(
           context, MaterialPageRoute(builder: (builder) => UserStatus()));
     } else {
-      DatabaseMethods().numberAdd().then((value) => {
+      DatabaseMethods().profileDetailEmailAdd().then((value) => {
             Navigator.push(context,
                 MaterialPageRoute(builder: (builder) => StoreOwnerProfile()))
           });

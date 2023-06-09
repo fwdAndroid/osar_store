@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class StoreModel {
   String uid;
   String type;
-  String address;
+  String? address;
   String email;
   String name;
   String phoneNumber;
@@ -16,7 +16,7 @@ class StoreModel {
     required this.verified,
     required this.email,
     required this.type,
-    required this.address,
+    this.address,
     required this.photoUrl,
     required this.name,
     required this.phoneNumber,

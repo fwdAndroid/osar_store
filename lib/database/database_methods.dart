@@ -23,21 +23,20 @@ class DatabaseMethods {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<String> numberAdd() async {
+  Future<String> profileDetailEmailAdd() async {
     String res = 'Some error occured';
     try {
       //Add User to the database with modal
       StoreModel userModel = StoreModel(
-          email: '',
+          email: FirebaseAuth.instance.currentUser!.email!,
           verified: false,
-          address: '',
+          address: "",
           dob: '',
           photoUrl: "",
           type: 'StoreOwner',
           name: '',
           uid: FirebaseAuth.instance.currentUser!.uid,
-          phoneNumber:
-              FirebaseAuth.instance.currentUser!.phoneNumber.toString());
+          phoneNumber: "");
       await firebaseFirestore
           .collection('storeowners')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -52,11 +51,10 @@ class DatabaseMethods {
   }
 
   //Profile Details
-  Future<String> profileDetail({
+  Future<String> profileDetailEmail({
     required String email,
     required String uid,
     required String name,
-    required String address,
     required bool verified,
     required String type,
     required String dob,
@@ -73,14 +71,12 @@ class DatabaseMethods {
         StoreModel userModel = StoreModel(
           verified: verified,
           name: name,
-          address: address,
           dob: dob,
           uid: FirebaseAuth.instance.currentUser!.uid,
-          email: email,
+          email: FirebaseAuth.instance.currentUser!.email.toString(),
           type: type,
           photoUrl: photoURL,
-          phoneNumber:
-              FirebaseAuth.instance.currentUser!.phoneNumber.toString(),
+          phoneNumber: phoneNumber,
         );
         await firebaseFirestore
             .collection('storeowners')

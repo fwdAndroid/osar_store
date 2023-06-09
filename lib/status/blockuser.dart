@@ -14,7 +14,10 @@ class _BlockUserState extends State<BlockUser> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Text("Kindly Verify Your Account"),
+        child: Text(
+          "We will Notify you via Email \nOnce your Account is Verified",
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
