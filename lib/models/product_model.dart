@@ -5,6 +5,7 @@ class ProductModel {
   String productName;
   int prductPrice;
   String productUUid;
+  String storeid;
   String storeName;
   List<String> productImages;
   String image;
@@ -16,6 +17,7 @@ class ProductModel {
     required this.productName,
     required this.storeAddress,
     required this.storeName,
+    required this.storeid,
     required this.prductPrice,
     required this.productUUid,
     required this.productDescription,
@@ -26,6 +28,7 @@ class ProductModel {
   Map<String, dynamic> toJson() => {
         "productUUid": productUUid,
         'image': image,
+        "storeid": storeid,
         'uid': uid,
         'productImages': productImages,
         'prductPrice': prductPrice,
@@ -42,6 +45,7 @@ class ProductModel {
     return ProductModel(
       productDescription: snapshot['productDescription'],
       uid: snapshot['uid'],
+      storeid: snapshot['storeid'],
       productImages: snapshot['productImages'],
       productUUid: snapshot['productUUid'],
       prductPrice: snapshot['prductPrice'],

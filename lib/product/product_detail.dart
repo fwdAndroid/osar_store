@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,10 +10,12 @@ class ProductDetail extends StatefulWidget {
   final ProductDescritption;
   final ProductImage;
   final ProductPrice;
+  final productImages;
   final productUuod;
   ProductDetail(
       {super.key,
       required this.productUuod,
+      required this.productImages,
       required this.ProductDescritption,
       required this.ProductImage,
       required this.ProductName,
@@ -105,6 +109,32 @@ class _ProductDetailState extends State<ProductDetail> {
           Container(
             margin: EdgeInsets.only(left: 15, right: 15),
             child: Text(widget.ProductPrice.toString()),
+          ),
+          Container(
+              margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+              child: Text(
+                "Product Images",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              )),
+          Container(
+            height: 160,
+            margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+            child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          NetworkImage(widget.productImages.toString()),
+                    ),
+                  );
+                }),
           ),
           Center(
             child: TextButton(

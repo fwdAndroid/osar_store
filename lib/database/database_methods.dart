@@ -142,7 +142,7 @@ class DatabaseMethods {
     required String storeName,
     required String productUUid,
     required List<String> productImages,
-    // required var images,
+    required String storeid,
     required int price,
   }) async {
     String res = 'Some error occured';
@@ -158,6 +158,7 @@ class DatabaseMethods {
         //     .uploadImageToStorage('ProductPics', images as Uint8List, false);
         ProductModel userModel = ProductModel(
           storeAddress: storeAddress,
+          storeid: storeid,
           productImages: productImages,
           storeName: storeName,
           productName: productName,

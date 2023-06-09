@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +13,7 @@ import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as Path;
 
 class AddProduct extends StatefulWidget {
   String storeName;
@@ -30,7 +35,10 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController _controllerDescrition = TextEditingController();
   TextEditingController _price = TextEditingController();
   Uint8List? _image;
-  List<String>? image;
+  List<File> _images = [];
+  double val = 0;
+  CollectionReference? imgRef;
+  firebase_storage.Reference? ref;
 
   bool _isLoading = false;
   final picker = ImagePicker();
@@ -182,7 +190,7 @@ class _AddProductState extends State<AddProduct> {
             Container(
               margin: EdgeInsets.only(left: 15, right: 15),
               child: TextFormInputField(
-                hintText: 'Price',
+                hintText: 'Price'.trim(),
                 textInputType: TextInputType.number,
                 controller: _price,
               ),
@@ -190,46 +198,86 @@ class _AddProductState extends State<AddProduct> {
             SizedBox(
               height: 15,
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  var uuid = Uuid().v4();
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  String rse = await DatabaseMethods().addProduct(
-                    storeAddress: widget.storeAddress,
-                    storeName: widget.storeName,
-                    productUUid: uuid,
-                    productImages: [],
-                    file: _image!,
-                    productDescription: _controllerDescrition.text,
-                    productName: _controller.text,
-                    price: int.parse(_price.text),
-                    uid: FirebaseAuth.instance.currentUser!.uid,
-                  );
+            Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                child: Text(
+                  "Product Images",
+                  style: TextStyle(color: Colors.black, fontSize: 17),
+                )),
+            Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Container(
+                height: 200,
+                padding: EdgeInsets.all(4),
+                child: GridView.builder(
+                    itemCount: _images.length + 1,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return index == 0
+                          ? Center(
+                              child: IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () => choosesImage()),
+                            )
+                          : Container(
+                              margin: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                      image: FileImage(_images[index - 1]),
+                                      fit: BoxFit.cover)),
+                            );
+                    }),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    var uuid = Uuid().v4();
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    String rse = await DatabaseMethods().addProduct(
+                      storeAddress: widget.storeAddress,
+                      storeName: widget.storeName,
+                      productUUid: uuid,
+                      storeid: widget.storeid,
+                      productImages: [_images.toString()],
+                      file: _image!,
+                      productDescription: _controllerDescrition.text,
+                      productName: _controller.text,
+                      price: int.parse(_price.text),
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                    );
 
-                  print(rse);
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  if (rse == 'success') {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => MainDashboard()));
-                  } else {
-                    showSnakBar(rse, context);
-                  }
-                },
-                child: _isLoading == true
-                    ? const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      )
-                    : Text("Next"),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffFFBF00),
-                    fixedSize: Size(250, 50)),
+                    print(rse);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    if (rse == 'success') {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => MainDashboard()));
+                    } else {
+                      showSnakBar(rse, context);
+                    }
+                  },
+                  child: _isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                      : Text("Create"),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffFFBF00),
+                      fixedSize: Size(250, 50)),
+                ),
               ),
             )
           ],
@@ -245,5 +293,10 @@ class _AddProductState extends State<AddProduct> {
     });
   }
 
-  uploadFile() {}
+  choosesImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _images.add(File(pickedFile!.path));
+    });
+  }
 }

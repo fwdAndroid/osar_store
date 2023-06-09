@@ -175,6 +175,8 @@ class _Home_ScreenState extends State<Home_Screen> {
                                             MaterialPageRoute(
                                                 builder: (builder) =>
                                                     ProductDetail(
+                                                      productImages:
+                                                          data['productImages'],
                                                       productUuod:
                                                           data['productUUid'],
                                                       ProductDescritption: data[
