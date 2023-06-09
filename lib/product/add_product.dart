@@ -13,10 +13,12 @@ import 'package:uuid/uuid.dart';
 class AddProduct extends StatefulWidget {
   String storeName;
   String storeAddress;
+  String storeid;
   AddProduct({
     super.key,
     required this.storeAddress,
     required this.storeName,
+    required this.storeid,
   });
 
   @override
@@ -28,6 +30,7 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController _controllerDescrition = TextEditingController();
   TextEditingController _price = TextEditingController();
   Uint8List? _image;
+  List<String>? image;
 
   bool _isLoading = false;
   final picker = ImagePicker();
@@ -189,7 +192,36 @@ class _AddProductState extends State<AddProduct> {
             ),
             Center(
               child: ElevatedButton(
-                onPressed: saveProduct,
+                onPressed: () async {
+                  var uuid = Uuid().v4();
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  String rse = await DatabaseMethods().addProduct(
+                    storeAddress: widget.storeAddress,
+                    storeName: widget.storeName,
+                    productUUid: uuid,
+                    productImages: [],
+                    file: _image!,
+                    productDescription: _controllerDescrition.text,
+                    productName: _controller.text,
+                    price: int.parse(_price.text),
+                    uid: FirebaseAuth.instance.currentUser!.uid,
+                  );
+
+                  print(rse);
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  if (rse == 'success') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => MainDashboard()));
+                  } else {
+                    showSnakBar(rse, context);
+                  }
+                },
                 child: _isLoading == true
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),
@@ -204,35 +236,6 @@ class _AddProductState extends State<AddProduct> {
         ),
       ),
     );
-  }
-
-  void saveProduct() async {
-    var uuid = Uuid().v4();
-    setState(() {
-      _isLoading = true;
-    });
-    String rse = await DatabaseMethods().addProduct(
-      storeAddress: widget.storeAddress,
-      storeName: widget.storeName,
-      productUUid: uuid,
-      productImages: [],
-      file: _image!,
-      productDescription: _controllerDescrition.text,
-      productName: _controller.text,
-      price: int.parse(_price.text),
-      uid: FirebaseAuth.instance.currentUser!.uid,
-    );
-
-    print(rse);
-    setState(() {
-      _isLoading = false;
-    });
-    if (rse == 'success') {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => MainDashboard()));
-    } else {
-      showSnakBar(rse, context);
-    }
   }
 
   selectImage() async {
