@@ -12,7 +12,8 @@ import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 
 class StoreMainScreen extends StatefulWidget {
-  const StoreMainScreen({Key? key}) : super(key: key);
+  final uid;
+  const StoreMainScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
   _StoreMainScreenState createState() => _StoreMainScreenState();
@@ -336,7 +337,7 @@ class _StoreMainScreenState extends State<StoreMainScreen> {
           address: _addressController.text,
           phoneNumber: _phoneController.text,
           file: _image!,
-          uid: FirebaseAuth.instance.currentUser!.uid,
+          uid: widget.uid,
           verified: false);
 
       print(rse);

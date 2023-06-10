@@ -22,7 +22,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
             ? StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('orders')
-                    .where('uid',
+                    .where('storeid',
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     // .where("paymentstatus", isEqualTo: "unpaid")
                     .snapshots(),

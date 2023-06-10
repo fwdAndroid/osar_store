@@ -40,7 +40,11 @@ class _CheckStoreStatusState extends State<CheckStoreStatus> {
           context, MaterialPageRoute(builder: (builder) => MainDashboard()));
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => StoreMainScreen()));
+          context,
+          MaterialPageRoute(
+              builder: (builder) => StoreMainScreen(
+                    uid: FirebaseAuth.instance.currentUser!.uid,
+                  )));
     }
   }
 }

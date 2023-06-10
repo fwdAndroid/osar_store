@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:osar_store/database/database_methods.dart';
-import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
-import 'package:osar_store/mainscreen/store_main_screen.dart';
 import 'package:osar_store/profile/add_address.dart';
-import 'package:osar_store/status/user_status.dart';
 import 'package:osar_store/widgets/textfieldwidget.dart';
 import 'package:osar_store/widgets/utils.dart';
 
@@ -235,7 +232,7 @@ class _StoreOwnerProfileState extends State<StoreOwnerProfile> {
       if (rse == 'success') {
         showSnakBar(rse, context);
         Navigator.push(
-            context, MaterialPageRoute(builder: (builder) => AddAddress()));
+            context, MaterialPageRoute(builder: (builder) => AddMapAddress()));
       } else {
         showSnakBar(rse, context);
       }
