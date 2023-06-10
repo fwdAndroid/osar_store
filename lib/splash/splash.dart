@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:osar_store/auth/main_auth.dart';
+import 'package:osar_store/mainscreen/dashboard/main_dashborad.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -15,10 +17,17 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainAuth())));
+    FirebaseAuth.instance.userChanges().listen((User? user) {
+      if (user != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (builder) => MainDashboard()));
+      } else {
+        Timer(
+            Duration(seconds: 3),
+            () => Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => MainAuth())));
+      }
+    });
   }
 
   @override
