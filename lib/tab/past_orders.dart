@@ -24,7 +24,7 @@ class _PastOrdersState extends State<PastOrders> {
                     .collection('orders')
                     .where('uid',
                         isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                    // .where("paymentstatus", isEqualTo: "unpaid")
+                    .where("orderstatus", isEqualTo: "completed")
                     .snapshots(),
                 builder: (context,
                     AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
@@ -56,28 +56,28 @@ class _PastOrdersState extends State<PastOrders> {
                                 return Column(
                                   children: [
                                     ListTile(
-                                      onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (builder) =>
-                                        //         AppointCurrentDetail(),
-                                        //   ),
-                                        // );
-                                      },
-                                      leading: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            documentSnapshot['ProductImage']
-                                                .toString()),
-                                      ),
-                                      title: Text(documentSnapshot['Location']),
-                                      // subtitle:
-                                      //     Text(documentSnapshot['problem']),
-
-                                      trailing: Text(
-                                          documentSnapshot['ProductPrice']
-                                              .toString()),
-                                    ),
+                                        onTap: () {
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (builder) =>
+                                          //         AppointCurrentDetail(),
+                                          //   ),
+                                          // );
+                                        },
+                                        leading: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              documentSnapshot['productImage']
+                                                  .toString()),
+                                        ),
+                                        title: Text(
+                                            documentSnapshot['productName']),
+                                        subtitle: Text(documentSnapshot[
+                                            'productDescription']),
+                                        trailing: TextButton(
+                                          onPressed: () {},
+                                          child: Text("Rate"),
+                                        )),
                                     Divider()
                                   ],
                                 );
